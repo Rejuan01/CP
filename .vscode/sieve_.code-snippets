@@ -1,0 +1,20 @@
+{
+  "Sieve": {
+    "prefix": "sieve",
+    "body": [
+      "const ll N = 1e6+10;",
+      "bool isPrime[N];",
+      "void sieve(){",
+      "    fill(isPrime, isPrime + N, true);",
+      "    isPrime[0] = isPrime[1] = false;",
+      "    for(ll i = 2; i * i < N; i++){",
+      "        if(!isPrime[i]) continue;",
+      "        for(ll j = i * i; j < N; j += i){",
+      "            isPrime[j] = false;",
+      "        }",
+      "    }",
+      "}"
+    ],
+    "description": "Sieve of Eratosthenes for prime numbers"
+  }
+}

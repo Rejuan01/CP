@@ -1,0 +1,1 @@
+{"name":"Local: upper_lower_bound","url":"d:\\Documents_backup_C\\C++ codes\\CP\\Binary_search\\upper_lower_bound.cpp","tests":[{"id":1738829046578,"input":"7\n1 3 5 7 7 8 9","output":"5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Documents_backup_C\\C++ codes\\CP\\Binary_search\\upper_lower_bound.cpp","group":"local","local":true}

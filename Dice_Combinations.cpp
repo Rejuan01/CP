@@ -1,5 +1,9 @@
 #include<bits/stdc++.h>
+// #include<ext/pb_ds/assoc_container.hpp>
+// #include<ext/pb_ds/tree_policy.hpp>
 using namespace std;
+// using namespace __gnu_pbds;
+// typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key
 #define ll long long
 #define ull unsigned long long
 using vi = vector<ll>;
@@ -10,44 +14,27 @@ using pr = pair<ll, ll>;
 #define ssort(a) sort(a.begin(), a.end())
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
-#define no cout<<"NO"<<endl 
-ll mod = 1e9 + 7;
-vi dp(1e6+5, -1);
-ll calc(ll x){
-    if(x == 0){
-        return 1;
-    }
-    if(dp[x] != -1) return dp[x];
-    ll s = 0;
-    ll p;
-    for(ll i = 1; i <= 6 && x-i >= 0; i++){
-        if(dp[x-i] != -1) s += dp[x-i];
-        else s += calc(x-i);
-        s %= mod;
-    }
-    dp[x] = s;
-    return dp[x];
-}
-
+#define no cout<<"NO"<<endl
+ll mod = 1e9+7;
 void solve(){
     ll n;
     cin >> n;
-    //cout << calc(n) << endl;
-    vi DP(n+1);
-    DP[0] = 1;
-    for(ll i = 1; i <= n; i++){
-        for(ll j = 1; j <= 6 && i-j >= 0; j++){
-            DP[i] += DP[i-j];
-            DP[i] %= mod;
+    vi dp(n+1); // dp[i] = in how many ways I can reach/get i by throwing dice
+    dp[0] = 1;  
+    for(ll i = 0; i < n; i++){
+        for(ll j = i+1; j <= i+6 && j <= n; j++){
+            dp[j] += dp[i];
+            dp[j] %= mod;
         }
     }
-    cout << DP[n] << endl;
+    cout << dp[n] << endl;
 }
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
+    // cin >> t;
     while(t--){
        solve();
     }

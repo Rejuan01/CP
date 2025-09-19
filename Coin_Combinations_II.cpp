@@ -10,20 +10,23 @@ int main(){
 
     int n, x;
     cin >> n >> x;
-    vector<int> a(n+1);
-    vector<vector<int>> DP(n+1, vector<int>(x+1));
-
-    for(int i = 0; i < n; i++) cin >> a[i];
-    // sort(a.begin(), a.end());
-
-    for(int i = 0; i < n; i++) DP[i][0] = 1;
-    for(int i = n-1; i >= 0; i--){
+    vector<int> c(n+1);
+    for(int i = 1; i <= n; i++) cin >> c[i];
+    // vector<vector<int>> dp(n+1, vector<int>(x+1));
+    // dp[i][j] = how many ways to get sum j from first i coins
+    vector<int> prev(x+1); // dp[i-1]
+    for(int i = 1; i <= n; i++){
+        vector<int> current(x+1); // dp[i]
+        // dp[i][0] = 1; 
+        current[0] = 1;
         for(int j = 1; j <= x; j++){
-            DP[i][j] = DP[i+1][j];
-            if(j >= a[i]) DP[i][j] += DP[i][j-a[i]]; 
-            DP[i][j] %= mod;
+            if(c[i] > j){
+                current[j] = prev[j]; continue;
+            }
+            current[j] = prev[j] + current[j-c[i]];
+            current[j] %= mod;
         }
+        prev = current;
     }
-    cout << DP[0][x] << endl;
-
+    cout << prev[x] << endl;
 }

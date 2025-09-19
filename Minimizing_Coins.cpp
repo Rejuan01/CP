@@ -1,5 +1,9 @@
 #include<bits/stdc++.h>
+// #include<ext/pb_ds/assoc_container.hpp>
+// #include<ext/pb_ds/tree_policy.hpp>
 using namespace std;
+// using namespace __gnu_pbds;
+// typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key
 #define ll long long
 #define ull unsigned long long
 using vi = vector<ll>;
@@ -10,52 +14,30 @@ using pr = pair<ll, ll>;
 #define ssort(a) sort(a.begin(), a.end())
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
-#define no cout<<"NO"<<endl 
-ll n, x;
-vi a;
-// vi dp(1e6+10, -1); // dp[i] = min number of coins to get i money
-// ll calc(ll x){
-//     if(x < a[0]) return -2;
-//     if(dp[x] != -1) return dp[x];
-//     ll mn = LONG_LONG_MAX;
-//     for(ll i = 0; i < n && x-a[i] >= 0; i++){
-//         ll p = calc(x-a[i]);
-//         if(p >= 0) mn = min(mn, p);
-//     }
-//     if(mn == LONG_LONG_MAX) dp[x] = -2;
-//     else dp[x] = mn+1;
-//     return dp[x];
-// }
+#define no cout<<"NO"<<endl
 void solve(){
+    ll n, x;
     cin >> n >> x;
-    for(ll i = 0; i < n; i++){
-        ll x; cin >> x;
-        a.push_back(x);
-        //dp[x] = 1;
-    }
+    vi a(n), dp(x+1, -1); // dp[i] = min number of coins need to reach/get i amount
+    for(ll i = 0; i < n; i++) cin >> a[i];
     sort(a.begin(), a.end());
-    // if(calc(x) == -2){
-    //     cout << -1 << endl;
-    // }
-    // else cout << calc(x) << endl;
-
-    vi DP(x+1, -1); // DP[i] = minimum number of coins to get i money
-    DP[0] = 0;
+    dp[0] = 0;
     for(ll i = 1; i <= x; i++){
-        ll mn = 1e9;
-        for(ll j = 0; j < n && i-a[j] >= 0; j++){
-            if(DP[i-a[j]] == -1) continue;
-            mn = min(mn, DP[i-a[j]]);
+        for(auto it: a){
+            if(i-it < 0) break;
+            if(dp[i-it] == -1) continue;  
+            if(dp[i] == -1) dp[i] = dp[i-it]+1;
+            else dp[i] = min(dp[i-it]+1, dp[i]);
         }
-        if(mn != 1e9) DP[i] = mn+1;
     }
-    cout << DP[x] << endl;
+    cout << dp[x] << endl;
 }
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
+    // cin >> t;
     while(t--){
        solve();
     }

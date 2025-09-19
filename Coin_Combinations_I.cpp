@@ -1,21 +1,22 @@
-#include <iostream>
-#include <vector>
+#include<bits/stdc++.h>
 using namespace std;
-const int mod = 1e9 + 7;
-
+const int mod = 1e9+7; // Gets TLE in CSES without this const !!!!!!!!!!!!!!!
 int main(){
-    ios::sync_with_stdio(false);
+    ios::sync_with_stdio(0);
     cin.tie(0);
+    cout.tie(0);
     int n, x;
     cin >> n >> x;
-    vector<int> a(n), DP(x+1);
+    vector<int> a(n), dp(x+1); // dp[i] = no of ways to get i amount of money
     for(int i = 0; i < n; i++) cin >> a[i];
-
-    DP[0] = 1;
+    sort(a.begin(), a.end());
+    dp[0] = 1;
     for(int i = 1; i <= x; i++){
-        for(int &c: a){
-            if(i >= c) DP[i] = (DP[i] + DP[i-c])%mod;
+        for(auto &it: a){
+            if(i-it < 0) break;
+            dp[i] = (dp[i]+dp[i-it])%mod; // sum of all ways to reach i
         }
     }
-    cout << DP[x] << endl;
+    cout << dp[x] << endl;
+    return 0;
 }

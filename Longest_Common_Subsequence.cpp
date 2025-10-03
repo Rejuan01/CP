@@ -39,6 +39,7 @@ void solve(){
             i--; j--;
         }
         else if(dp[i-1][j] >= dp[i][j-1]) i--; // dp[i][j] == dp[i-1][j]
+        
         else j--;
     }
     reverse(ans.begin(), ans.end());

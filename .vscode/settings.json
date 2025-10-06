@@ -145,6 +145,8 @@
     "typeinfo": "cpp",
     "valarray": "cpp",
     "variant": "cpp",
-    "format": "cpp"
+    "format": "cpp",
+    "flat_map": "cpp",
+    "flat_set": "cpp"
   }
 }

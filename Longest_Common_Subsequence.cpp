@@ -32,6 +32,7 @@ void solve(){
     }
     vi ans;
     ll i = n, j = m;
+    
     // backtrack
     while(i > 0 && j > 0){
         if(a[i] == b[j]){

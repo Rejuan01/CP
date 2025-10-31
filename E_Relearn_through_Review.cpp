@@ -54,10 +54,14 @@ void solve() {
     vector<ll> a(n);
     for (ll &x : a) cin >> x;
     vector<vector<ll>> dp(n, vector<ll>(3));
+    // dp[i][0] = max gcd till a[i] if a[i] is < l
+    // dp[i][1] = max gcd till a[i] if l <= a[i] <= r
+    // dp[i][2] = max gcd till a[i] if a[i] is > r. 
 
     dp[0][0] = a[0];
     dp[0][1] = a[0] + k;
-    dp[0][2] = a[0];
+    dp[0][2] = a[0]; 
+    // cout << n << endl;
 
     for (int i = 1; i < n; i++) {
         dp[i][0] = gcd(dp[i - 1][0], a[i]);
@@ -70,11 +74,18 @@ void solve() {
         ll fs = gcd(dp[i - 1][1], a[i]);
         ll ft = gcd(dp[i - 1][2], a[i]);
         dp[i][2] = max({fs, ft,f0});
+        // cout << dp[i][0] << " " << dp[i][1] << " " << dp[i][2] << endl;
     }
 
     ll ans = max({dp[n - 1][0], dp[n - 1][1], dp[n - 1][2]});
     cout << ans << endl;
 }
+
+
+
+    // WRONG ANSWER ;(
+
+
 
 int main() {
     // File and Fast I/O Setup

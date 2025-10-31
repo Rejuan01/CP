@@ -85,6 +85,5 @@ int main() {
         cout << "Case #" << i << ": ";
         solve();
     }
-
     return 0;
-}
+} 

@@ -148,5 +148,6 @@
     "format": "cpp",
     "flat_map": "cpp",
     "flat_set": "cpp"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+// #include<ext/pb_ds/assoc_container.hpp>
+// #include<ext/pb_ds/tree_policy.hpp>
+using namespace std;
+// using namespace __gnu_pbds;
+// typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key
+#define ll long long
+#define ull unsigned long long
+using vi = vector<ll>;
+using vp = vector<pair<ll, ll>>;
+using pr = pair<ll, ll>;
+#define pb push_back
+#define rsort(a) sort(a.rbegin(), a.rend())
+#define ssort(a) sort(a.begin(), a.end())
+#define rev(a) reverse(a.begin(), a.end())
+#define yes cout<<"YES"<<endl
+#define no cout<<"NO"<<endl 
+void solve(){
+    ll n,k;
+    cin >> n >> k;
+    vi a(n+1), pre(n+2), suf(n+2);
+    map<ll, ll> mp; // size = log(n)
+    for(ll i = 1; i <= n; i++) cin >> a[i];
+
+    mp[pre[0]] = 0;
+
+    for(ll i = 1; i <= n; i++){
+        pre[i] = gcd(pre[i-1], a[i]);
+        mp[pre[i]] = i;
+    }
+    for(ll i = n; i > 0; i--) suf[i] = gcd(suf[i+1], a[i]);
+
+    ll ans = pre[n];
+    for(auto &[x, y]: mp){
+        ll g = x;
+        for(ll i = y+1; i <= n; i++){
+            g = gcd(g, a[i]+k);
+            ll s = gcd(g, suf[i+1]);
+            ans = max(ans, s);
+        }
+    }
+    cout << ans << endl;
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t = 1;
+    cin >> t;
+    while(t--){
+       solve();
+    }
+    return 0;
+}

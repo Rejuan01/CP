@@ -18,37 +18,31 @@ using pr = pair<ll, ll>;
 void solve(){
     ll n;
     cin >> n;
-    vp v(2*n);
-    for(ll i = 0; i < 2*n; i++){
-        ll a, b; cin >> a >> b;
-        if(a > b) swap(a, b);
-        v[i] = {a, b};
+    vi a(n+1);
+    for(ll i = 1; i <= n; i++) cin >> a[i];
+    vi b(n+1), c(n+2);
+    b[0] = 0;
+    c[n+1] = LONG_LONG_MAX;
+    for(ll i = 1; i <= n; i++) b[i] = max(b[i-1], a[i]);
+    for(ll i = n; i >= 1; i--) c[i] = min(c[i+1], a[i]);
+    for(ll i = 1; i <= n; i++){
+        if(a[i] > b[i-1] && a[i] < c[i+1]){
+            cout << i << endl;
+            return;
+        }
     }
-    sort(v.begin(), v.end(), [&](pr p1, pr p2){
-        return p1.first+p1.second < p2.first+p2.second;
-    });
-    ll ans = 0;
-    for(ll i = n; i < 2*n; i++) ans += v[i].second;
-    for(ll i = 0; i < n; i++) ans -= v[i].first; 
-    cout << ans << endl;
-} 
-/* 
-    for 2 pairs (a1, b1), (a2, b2): 
-    ans = max(b2-a1, b1-a2);
-    if b2-a1 > b1-a2:   a2+b2 > a1+b1 
-    if b1-a2 > b2-a1:   a1+b1 > a2+b2  
-
-    so 'b' always comes from the pairs where a+b is higher 
-    and 'a' from the pairs where a+b is lower 
-*/ 
+    cout << "Humanity is doomed!" << endl;
+    
+}
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
-    while(t--){
-       solve();
+    cin >> t;
+    for(ll i = 1; i <= t; i++){
+        cout << "Case " << i << ": ";
+        solve();
     }
     return 0;
 }

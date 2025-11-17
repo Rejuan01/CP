@@ -18,35 +18,35 @@ using pr = pair<ll, ll>;
 void solve(){
     ll n;
     cin >> n;
-    vp v(2*n);
-    for(ll i = 0; i < 2*n; i++){
-        ll a, b; cin >> a >> b;
-        if(a > b) swap(a, b);
-        v[i] = {a, b};
-    }
-    sort(v.begin(), v.end(), [&](pr p1, pr p2){
-        return p1.first+p1.second < p2.first+p2.second;
-    });
+    vi a(n), b(n);
+    for(ll i = 0; i < n; i++) cin >> a[i];
+    for(ll i = 0; i < n; i++) cin >> b[i];
+    vector<bool> c(n+1);
+    ll l = 0, r = 0;
     ll ans = 0;
-    for(ll i = n; i < 2*n; i++) ans += v[i].second;
-    for(ll i = 0; i < n; i++) ans -= v[i].first; 
+    while(r < n && l < n){
+        // cout << a[l] << " : " << b[r] << endl;
+        while(l < n && c[a[l]]) l++;
+        while(r < n && b[r] != a[l]){
+            c[b[r]] = 1;
+            // cout << a[l] << " " << b[r] << endl;
+            ans++;
+            r++;
+        }
+        if(r < n){
+            // cout << b[r] << endl;
+            c[b[r]] = 1;
+        }
+        l++; r++;
+    }
     cout << ans << endl;
-} 
-/* 
-    for 2 pairs (a1, b1), (a2, b2): 
-    ans = max(b2-a1, b1-a2);
-    if b2-a1 > b1-a2:   a2+b2 > a1+b1 
-    if b1-a2 > b2-a1:   a1+b1 > a2+b2  
-
-    so 'b' always comes from the pairs where a+b is higher 
-    and 'a' from the pairs where a+b is lower 
-*/ 
+}
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

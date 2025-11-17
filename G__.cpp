@@ -16,37 +16,41 @@ using pr = pair<ll, ll>;
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
 void solve(){
-    ll n;
-    cin >> n;
-    vp v(2*n);
-    for(ll i = 0; i < 2*n; i++){
-        ll a, b; cin >> a >> b;
-        if(a > b) swap(a, b);
-        v[i] = {a, b};
+    ll n, m;
+    cin >> n >> m;
+    vector<vi> a(n, vi(m));
+    for(ll i = 0; i < n; i++){
+        for(ll j = 0; j < m; j++) cin >> a[i][j];
     }
-    sort(v.begin(), v.end(), [&](pr p1, pr p2){
-        return p1.first+p1.second < p2.first+p2.second;
-    });
+    vi r(n), c(m);
+    for(ll i = 0; i < n; i++){
+        for(ll j = 0; j < m; j++){
+            r[i] = (r[i]^a[i][j]);
+            c[j] = (c[j]^a[i][j]);
+        }
+    }
     ll ans = 0;
-    for(ll i = n; i < 2*n; i++) ans += v[i].second;
-    for(ll i = 0; i < n; i++) ans -= v[i].first; 
-    cout << ans << endl;
-} 
-/* 
-    for 2 pairs (a1, b1), (a2, b2): 
-    ans = max(b2-a1, b1-a2);
-    if b2-a1 > b1-a2:   a2+b2 > a1+b1 
-    if b1-a2 > b2-a1:   a1+b1 > a2+b2  
-
-    so 'b' always comes from the pairs where a+b is higher 
-    and 'a' from the pairs where a+b is lower 
-*/ 
+    for(auto it: r) ans += it;
+    for(auto it: c) ans += it;
+    ll p = 0;
+    for(ll i = 0; i < n; i++){
+        for(ll j = 0; j < m; j++){
+            ll x = r[i]^a[i][j];
+            ll y = c[j]^a[i][j];
+            ll z = (x^y)-r[i]-c[j];
+            p = min(p, z);
+        }
+    }
+    cout << ans+p << endl;
+    
+    
+}
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

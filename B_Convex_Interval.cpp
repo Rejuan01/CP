@@ -15,38 +15,40 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+ll cross(pr p1, pr p2, pr p3) {
+    return (p2.first - p1.first) * (p3.second - p1.second) - 
+           (p2.second - p1.second) * (p3.first - p1.first);
+}
 void solve(){
     ll n;
     cin >> n;
-    vp v(2*n);
-    for(ll i = 0; i < 2*n; i++){
-        ll a, b; cin >> a >> b;
-        if(a > b) swap(a, b);
-        v[i] = {a, b};
-    }
-    sort(v.begin(), v.end(), [&](pr p1, pr p2){
-        return p1.first+p1.second < p2.first+p2.second;
-    });
+    vp a(n);
     ll ans = 0;
-    for(ll i = n; i < 2*n; i++) ans += v[i].second;
-    for(ll i = 0; i < n; i++) ans -= v[i].first; 
-    cout << ans << endl;
-} 
-/* 
-    for 2 pairs (a1, b1), (a2, b2): 
-    ans = max(b2-a1, b1-a2);
-    if b2-a1 > b1-a2:   a2+b2 > a1+b1 
-    if b1-a2 > b2-a1:   a1+b1 > a2+b2  
+    for(ll i = 0; i < n; i++) cin >> a[i].first >> a[i].second;
+    ll l = 0, r = 0;
+    while(r < n){
+        if(r-l+1 < 3){
+            r++; 
+            continue;
+        }
+        ll k1 = cross(a[r-2], a[r-1], a[r]);
+        ll k2 = cross(a[r-1], a[r], a[l]);
+        ll k3 = cross(a[r], a[l], a[l+1]);
 
-    so 'b' always comes from the pairs where a+b is higher 
-    and 'a' from the pairs where a+b is lower 
-*/ 
+        if(k1 < 0 && k2 < 0 && k3 < 0){ // all in counter clockwise (new 3 angles are < 180)
+            ans = max(ans, r-l+1);
+            r++; // expand till valid
+        }
+        else l++; // shrink till a valid segment then later expand
+    }
+    cout << ans << endl;
+}
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
-    cout.tie(0);
+    cout.tie(0); 
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

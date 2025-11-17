@@ -16,37 +16,32 @@ using pr = pair<ll, ll>;
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
 void solve(){
-    ll n;
-    cin >> n;
-    vp v(2*n);
-    for(ll i = 0; i < 2*n; i++){
-        ll a, b; cin >> a >> b;
-        if(a > b) swap(a, b);
-        v[i] = {a, b};
+    double x; cin >> x; 
+    double k = 0;
+    if(x == 0) k = 12500;
+    else if(x <= 7500){
+        k = 12500+x*5;
     }
-    sort(v.begin(), v.end(), [&](pr p1, pr p2){
-        return p1.first+p1.second < p2.first+p2.second;
-    });
-    ll ans = 0;
-    for(ll i = n; i < 2*n; i++) ans += v[i].second;
-    for(ll i = 0; i < n; i++) ans -= v[i].first; 
-    cout << ans << endl;
-} 
-/* 
-    for 2 pairs (a1, b1), (a2, b2): 
-    ans = max(b2-a1, b1-a2);
-    if b2-a1 > b1-a2:   a2+b2 > a1+b1 
-    if b1-a2 > b2-a1:   a1+b1 > a2+b2  
-
-    so 'b' always comes from the pairs where a+b is higher 
-    and 'a' from the pairs where a+b is lower 
-*/ 
+    else if(x <= 27500){
+        k = 50000+(x-7500)/0.4;
+    }
+    else if(x <= 42500){
+        k = 100000 + (x-27500)/0.6; 
+    }
+    else if(x <= 52500){
+        k = 100000 + (x-27500- (12500*.4))/0.4;
+    }
+    else{
+        k = 150000 + (x-47500 - (12500*0.4))/0.45;
+    }
+    cout << fixed << setprecision(6) << k << endl; return;
+}
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

@@ -15,38 +15,30 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+const ll mod = 1e9+7;
 void solve(){
-    ll n;
-    cin >> n;
-    vp v(2*n);
-    for(ll i = 0; i < 2*n; i++){
-        ll a, b; cin >> a >> b;
-        if(a > b) swap(a, b);
-        v[i] = {a, b};
+    string s;
+    cin >> s;
+    ll a = 0, b = 0, ba = 0; // no of subsequences ended in 'a', 'b' and 'ba'
+    for(auto &ch: s){
+        if(ch == 'a'){
+            a = (2*a+1)%mod;
+            ba = (ba+b)%mod;
+        } 
+        else if(ch == 'b'){ 
+            if(a) b = (b+a)%mod; 
+            if(ba) b = (b+ba)%mod; 
+        }
     }
-    sort(v.begin(), v.end(), [&](pr p1, pr p2){
-        return p1.first+p1.second < p2.first+p2.second;
-    });
-    ll ans = 0;
-    for(ll i = n; i < 2*n; i++) ans += v[i].second;
-    for(ll i = 0; i < n; i++) ans -= v[i].first; 
-    cout << ans << endl;
-} 
-/* 
-    for 2 pairs (a1, b1), (a2, b2): 
-    ans = max(b2-a1, b1-a2);
-    if b2-a1 > b1-a2:   a2+b2 > a1+b1 
-    if b1-a2 > b2-a1:   a1+b1 > a2+b2  
+    cout << (a+b)%mod << endl;
 
-    so 'b' always comes from the pairs where a+b is higher 
-    and 'a' from the pairs where a+b is lower 
-*/ 
+}
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

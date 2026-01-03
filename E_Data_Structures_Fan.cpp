@@ -24,9 +24,9 @@ void solve(){
     string s;
     cin >> s;
     for(ll i = 0; i < n; i++){
-        if(s[i] == '1') y ^= a[i+1];
-        else x ^= a[i+1];
-        a[i+1] ^= a[i];   // prefix xor ;)
+        if(s[i] == '1') y ^= a[i+1];  // total xor for char '1'
+        else x ^= a[i+1];             // total xor for char '0'
+        a[i+1] ^= a[i];     // prefix xor ;)
     }
     ll q;
     cin >> q;
@@ -34,9 +34,9 @@ void solve(){
         ll tp, l, r, g; cin >> tp;
         if(tp == 1){
             cin >> l >> r;
-            ll k = (a[r]^a[l-1]);
-            x ^= k;
-            y ^= k;
+            ll k = (a[r]^a[l-1]);   // xor of the segment [l, r]
+            x ^= k;                 // Update the total xor for '0' : zeroes are eleminated and ones are added (xor'ed)
+            y ^= k;                 // update the total xor from '1' : onesa are eleminated and zeros are added in xor
         }else{
             cin >> g;
             if(g) cout << y << " ";

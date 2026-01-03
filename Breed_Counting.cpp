@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+// #include<ext/pb_ds/assoc_container.hpp>
+// #include<ext/pb_ds/tree_policy.hpp>
+using namespace std;
+// using namespace __gnu_pbds;
+// typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key
+using ll = long long;
+using ull = unsigned long long;
+using vi = vector<ll>;
+using vp = vector<pair<ll, ll>>;
+using pr = pair<ll, ll>;
+#define pb push_back
+#define rsort(a) sort(a.rbegin(), a.rend())
+#define ssort(a) sort(a.begin(), a.end())
+#define rev(a) reverse(a.begin(), a.end())
+#define yes cout<<"YES"<<endl
+#define no cout<<"NO"<<endl
+void solve(){
+    ll n, q;
+    cin >> n >> q;
+    vi c1(n+1), c2(n+1), c3(n+1);
+    for(ll i = 1; i <= n; i++){
+        ll x; cin >> x;
+        if(x == 1) c1[i]++;
+        else if(x == 2) c2[i]++;
+        else c3[i]++;
+        c1[i] += c1[i-1]; c2[i] += c2[i-1]; c3[i] += c3[i-1];
+    }
+    while(q--){
+        ll l, r; cin >> l >> r;
+        cout << c1[r]-c1[l-1] << " " << c2[r]-c2[l-1] << " " << c3[r]-c3[l-1] << endl;
+    }
+    
+}
+int main(){
+    ios::sync_with_stdio(0);
+    freopen("bcount.in", "r", stdin);
+    freopen("bcount.out", "w", stdout);
+    cin.tie(0);
+    cout.tie(0);
+    solve();
+    return 0;
+}

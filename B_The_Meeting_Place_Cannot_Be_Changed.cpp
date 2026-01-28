@@ -15,21 +15,28 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+bool check(vi &a, vi &v, double t){
+    double x = 0, y = 1e9;
+    ll n = a.size();
+    for(ll i = 0; i < n; i++){
+        x = max(x, a[i]-t*v[i]);
+        y = min(y, a[i]+t*v[i]);
+    }
+    return x <= y;    // they can meet in a valid range [x, y]
+}
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    vi a(n);
+    ll n;
+    cin >> n;
+    vi a(n), v(n);
     for(ll i = 0; i < n; i++) cin >> a[i];
-    ssort(a);
-    ll l = 0, r = 1e9+1;
-    while(l+1 < r){      // max that I can add
-        ll m = (l+r)/2;
-        ll val = a[n/2]+m, s = 0;
-        for(ll i = n/2; i < n && a[i] < val; i++) s += val-a[i];
-        if(s > k) r = m;
+    for(ll i = 0; i < n; i++) cin >> v[i];
+    double l = -1e-6, r = 1e9;
+    while(l+1e-6 < r){
+        double m = (l+r)/2;
+        if(check(a, v, m)) r = m;    // if they can meet within time m
         else l = m;
     }
-    cout << a[n/2]+l << endl;
+    cout << fixed << setprecision(7) << r << endl;
 }
 int main(){
     ios::sync_with_stdio(0);

@@ -15,28 +15,39 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+pair<double, double> check(vi &a, vi &t, double m){
+    ll n = a.size();
+    double x = -1e18, y = 1e18;
+    for(ll i = 0; i < n; i++){
+        if(t[i] > m) return {1, -1};
+        double k = (m-t[i]);
+        x = max(x, a[i]-k);
+        y = min(y, a[i]+k);
+    }
+    return {x, y};   // in which range they can meet
+}
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    vi a(n);
+    ll n;
+    cin >> n;
+    vi a(n), b(n);
     for(ll i = 0; i < n; i++) cin >> a[i];
-    ssort(a);
-    ll l = 0, r = 1e9+1;
-    while(l+1 < r){      // max that I can add
-        ll m = (l+r)/2;
-        ll val = a[n/2]+m, s = 0;
-        for(ll i = n/2; i < n && a[i] < val; i++) s += val-a[i];
-        if(s > k) r = m;
+    for(ll i = 0; i < n; i++) cin >> b[i];
+    double l = -1, r = 1e16+1;
+    while(l+ 1e-6 < r){           // to find min time at which they can meet
+        double m = (l+r)/2;
+        auto p = check(a, b, m);
+        if(p.first <= p.second) r = m;   // in time m, they can meet in a valid place
         else l = m;
     }
-    cout << a[n/2]+l << endl;
+    auto p = check(a, b, r);
+    cout << fixed << setprecision(7) <<  p.first << endl;
 }
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

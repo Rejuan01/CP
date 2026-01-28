@@ -16,29 +16,22 @@ using pr = pair<ll, ll>;
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    vi a(n);
-    for(ll i = 0; i < n; i++) cin >> a[i];
-    ssort(a);
-    ll l = 0, r = 1e9+1;
-    while(l+1 < r){      // max that I can add
+    ll n;
+    cin >> n;
+    ll l = 1, r = n*n;
+    while(l+1 < r){
         ll m = (l+r)/2;
-        ll val = a[n/2]+m, s = 0;
-        for(ll i = n/2; i < n && a[i] < val; i++) s += val-a[i];
-        if(s > k) r = m;
+        ll cnt = 0;
+        for(ll i = 1; i <= n; i++) cnt += min(n, m/i);
+        if(cnt >= (n*n+1)/2) r = m;
         else l = m;
     }
-    cout << a[n/2]+l << endl;
+    cout << r << endl;
 }
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    int t = 1;
-    // cin >> t;
-    while(t--){
-       solve();
-    }
+    solve();
     return 0;
 }

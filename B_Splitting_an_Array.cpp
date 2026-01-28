@@ -15,21 +15,30 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+bool check(vi &a, ll k, ll m){
+    ll cnt = 1, s = 0;
+    for(auto it: a){
+        if(it > m) return 0;
+        if(s+it <= m) s += it;
+        else{
+            cnt++;
+            s = it;
+        }
+    }
+    return cnt <= k; // If less than k split is possible (each segemnt sum <= m) then k split is also possible
+}
 void solve(){
     ll n, k;
     cin >> n >> k;
     vi a(n);
     for(ll i = 0; i < n; i++) cin >> a[i];
-    ssort(a);
-    ll l = 0, r = 1e9+1;
-    while(l+1 < r){      // max that I can add
+    ll l = 0, r = 1e14;
+    while(l+1 < r){         // find min of max segment sum
         ll m = (l+r)/2;
-        ll val = a[n/2]+m, s = 0;
-        for(ll i = n/2; i < n && a[i] < val; i++) s += val-a[i];
-        if(s > k) r = m;
+        if(check(a, k, m)) r = m;   // if m can be the max segment sum
         else l = m;
     }
-    cout << a[n/2]+l << endl;
+    cout << r << endl;
 }
 int main(){
     ios::sync_with_stdio(0);

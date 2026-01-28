@@ -15,28 +15,30 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+ll query(ll x, ll l, ll r){
+    cout << x << " " << l << " " << r << endl;
+    ll s; cin >> s;
+    return s;
+}
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    vi a(n);
-    for(ll i = 0; i < n; i++) cin >> a[i];
-    ssort(a);
-    ll l = 0, r = 1e9+1;
-    while(l+1 < r){      // max that I can add
+    ll n;
+    cin >> n;
+    ll x = query(2, 1, n) - query(1, 1, n); // the len of modification
+    ll l = 0, r = n+1;
+    while(l+1 < r){       // The max no of elements from start till which no modification occured
         ll m = (l+r)/2;
-        ll val = a[n/2]+m, s = 0;
-        for(ll i = n/2; i < n && a[i] < val; i++) s += val-a[i];
-        if(s > k) r = m;
-        else l = m;
+        ll d = query(2, 1, m)-query(1, 1, m);
+        if(d == 0) l = m;
+        else r = m;
     }
-    cout << a[n/2]+l << endl;
+    cout << "! " << l+1 << " " << l+x << endl;
 }
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while(t--){
        solve();
     }

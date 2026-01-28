@@ -15,21 +15,27 @@ using pr = pair<ll, ll>;
 #define rev(a) reverse(a.begin(), a.end())
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+bool check(vi &a, vi &b, double m, ll k){   // if there is k elements for which sum(a[i]) >= m*sum(b[i]). So sum(a[i] - m*b[i]) >= 0
+    ll n = a.size();
+    vector<double> c(n);
+    for(ll i = 0; i < n; i++) c[i] = a[i]-m*b[i];
+    rsort(c);
+    double s = 0;
+    for(ll i = 0; i < k; i++) s += c[i]; 
+    return s >= 0;
+}
 void solve(){
     ll n, k;
     cin >> n >> k;
-    vi a(n);
-    for(ll i = 0; i < n; i++) cin >> a[i];
-    ssort(a);
-    ll l = 0, r = 1e9+1;
-    while(l+1 < r){      // max that I can add
-        ll m = (l+r)/2;
-        ll val = a[n/2]+m, s = 0;
-        for(ll i = n/2; i < n && a[i] < val; i++) s += val-a[i];
-        if(s > k) r = m;
-        else l = m;
+    vi a(n), b(n);
+    for(ll i = 0; i < n; i++) cin >> a[i] >> b[i];
+    double l = 1e-6, r = 1e10+1; 
+    while(l+1e-6 < r){               // find the max ratio
+        double m = (l+r)/2;
+        if(check(a, b, m, k)) l = m;
+        else r = m;
     }
-    cout << a[n/2]+l << endl;
+    cout << fixed << setprecision(7) << l << endl;
 }
 int main(){
     ios::sync_with_stdio(0);

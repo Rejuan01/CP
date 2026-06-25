@@ -28,10 +28,9 @@ void solve(){
     ll n;
     cin >> n;
     ll ans = 0;
-    for(ll i = 1; i < n; i++){
-        ll x = n/i;
-        ll idx = upper_bound(p.begin(), p.end(), x) - p.begin();
-        ans += idx;
+    for(auto it: p){
+        if(it > n) break; // else got tle ;)
+        ans += n/it;
     }
     cout << ans << endl;
 }
